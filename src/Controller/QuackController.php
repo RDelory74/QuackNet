@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/quack')]
+#[Route('/')]
 final class QuackController extends AbstractController
 {
     #[Route(name: 'app_quack_index', methods: ['GET'])]
@@ -42,7 +42,7 @@ final class QuackController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_quack_show', methods: ['GET'])]
+    #[Route('quack/{id}', name: 'app_quack_show', methods: ['GET'])]
     public function show(Quack $quack): Response
     {
         return $this->render('quack/show.html.twig', [

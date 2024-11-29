@@ -11,7 +11,14 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
+    <header>
+        <a href='app_quack_index'>Home</a>
+    </header>
+
     <body>
-        {% block body %}{% endblock %}
+    {% block myContent %}{% endblock %}
     </body>
+    <footer>
+        @2024 by Rod
+    </footer>
 </html>
