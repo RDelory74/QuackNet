@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/')]
 final class QuackController extends AbstractController
 {
-    #[Route(name: 'app_quack_index', methods: ['GET'])]
+    #[Route('/home',name: 'app_quack_index', methods: ['GET'])]
     public function index(QuackRepository $quackRepository): Response
     {
         return $this->render('quack/index.html.twig', [

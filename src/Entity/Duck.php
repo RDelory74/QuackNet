@@ -43,7 +43,7 @@ class Duck implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $duckname = null;
 
     #[ORM\Column]
-    private bool $isVerified = false;
+    private bool $isVerified = true;
 
     public function getId(): ?int
     {
