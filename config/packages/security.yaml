@@ -25,9 +25,9 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 302400
+#            remember_me:
+#                secret: '%kernel.secret%'
+#                lifetime: 302400
             # 1 week in seconds = 604800
             # by default, the feature is enabled by checking a
             # checkbox in the login form (see below), uncomment the

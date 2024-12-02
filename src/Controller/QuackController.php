@@ -68,7 +68,7 @@ final class QuackController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_quack_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_quack_delete', methods: ['POST'])]
     public function delete(Request $request, Quack $quack, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$quack->getId(), $request->getPayload()->getString('_token'))) {

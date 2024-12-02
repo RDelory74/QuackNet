@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Duck;
+use App\Form\DuckType;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,15 +15,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct()
-    {
-    }
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', name: 'app_register',methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
+        dump($request);
         $user = new Duck();
-
+        dump($user);
         $form = $this->createForm(RegistrationFormType::class, $user);
 
         $form->handleRequest($request);
@@ -46,6 +45,40 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
+        ]);
+    }
+
+    #[Route('register/duck', name: 'app_duck_show', methods: ['GET'])]
+    public function show(): Response
+    {
+        $user=$this->getUser();
+        if (!$user instanceof Duck) {
+            throw $this->createAccessDeniedException('L\'utilisateur connecté est invalide.');
+        }
+        return $this->render('registration/dashboard.html.twig', [
+            'duck' => $user,
+        ]);
+    }
+    #[Route('register/edit', name: 'app_duck_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user=$this->getUser();
+        if (!$user instanceof Duck) {
+            throw $this->createAccessDeniedException('Accès interdit.');
+        }
+
+        $form = $this->createForm(DuckType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_quack_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('registration/edit_duck.html.twig', [
+            'duck' => $user,
+            'form' => $form,
         ]);
     }
 }

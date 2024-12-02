@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Duck{% endblock %}
+
+{% block myContent %}
+    <h1>Edit Duck</h1>
+
+    {{ include('registration/duck_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_duck_show') }}">back to Dashboard</a>
+
+    {{ include('registration/_delete_duck.html.twig') }}
+{% endblock %}
