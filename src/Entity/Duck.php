@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DuckRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -44,6 +46,24 @@ class Duck implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = true;
+
+    /**
+     * @var Collection<int, Coincoin>
+     */
+    #[ORM\OneToMany(targetEntity: Coincoin::class, mappedBy: 'author', orphanRemoval: true)]
+    private Collection $coincoins;
+
+    /**
+     * @var Collection<int, Quack>
+     */
+    #[ORM\OneToMany(targetEntity: Quack::class, mappedBy: 'author')]
+    private Collection $quacks;
+
+    public function __construct()
+    {
+        $this->coincoins = new ArrayCollection();
+        $this->quacks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -164,6 +184,66 @@ class Duck implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Coincoin>
+     */
+    public function getCoincoins(): Collection
+    {
+        return $this->coincoins;
+    }
+
+    public function addCoincoin(Coincoin $coincoin): static
+    {
+        if (!$this->coincoins->contains($coincoin)) {
+            $this->coincoins->add($coincoin);
+            $coincoin->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCoincoin(Coincoin $coincoin): static
+    {
+        if ($this->coincoins->removeElement($coincoin)) {
+            // set the owning side to null (unless already changed)
+            if ($coincoin->getAuthor() === $this) {
+                $coincoin->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quack>
+     */
+    public function getQuacks(): Collection
+    {
+        return $this->quacks;
+    }
+
+    public function addQuack(Quack $quack): static
+    {
+        if (!$this->quacks->contains($quack)) {
+            $this->quacks->add($quack);
+            $quack->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuack(Quack $quack): static
+    {
+        if ($this->quacks->removeElement($quack)) {
+            // set the owning side to null (unless already changed)
+            if ($quack->getAuthor() === $this) {
+                $quack->setAuthor(null);
+            }
+        }
 
         return $this;
     }

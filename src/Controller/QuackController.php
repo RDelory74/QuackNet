@@ -25,11 +25,13 @@ final class QuackController extends AbstractController
     #[Route('/new', name: 'app_quack_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
         $quack = new Quack();
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $quack->setAuthor($user);
             $entityManager->persist($quack);
             $entityManager->flush();
 

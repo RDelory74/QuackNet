@@ -9,8 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 class RegistrationController extends AbstractController
@@ -59,7 +61,7 @@ class RegistrationController extends AbstractController
             'duck' => $user,
         ]);
     }
-    #[Route('register/edit', name: 'app_duck_edit', methods: ['GET', 'POST'])]
+    #[Route('register/duck/edit', name: 'app_duck_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user=$this->getUser();
@@ -80,5 +82,21 @@ class RegistrationController extends AbstractController
             'duck' => $user,
             'form' => $form,
         ]);
+    }
+    #[Route('register/duck/delete', name: 'app_duck_delete', methods: ['POST'])]
+    public function delete(Request $request, EntityManagerInterface $entityManager, TokenStorageInterface$tokenStorage, SessionInterface $session, ): Response
+    {
+        $user=$this->getUser();
+        if (!$user instanceof Duck) {
+            throw $this->createAccessDeniedException('Accès interdit.');
+        }
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->getPayload()->getString('_token'))) {
+            $tokenStorage->setToken(null);
+            $session->invalidate();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_quack_index', [], Response::HTTP_SEE_OTHER);
     }
 }
