@@ -2,17 +2,20 @@
 
 namespace App\Form;
 
+use App\Entity\Coincoin;
+use App\Entity\Duck;
 use App\Entity\Quack;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class QuackType extends AbstractType
+class CoincoinType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content')
+            ->add('message')
             ->add('picture')
         ;
     }
@@ -20,7 +23,7 @@ class QuackType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Quack::class,
+            'data_class' => Coincoin::class,
         ]);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuackRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,8 +28,18 @@ class Quack
     #[ORM\JoinColumn(nullable: false)]
     private ?Duck $author = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
+
+    /**
+     * @var Collection<int, Coincoin>
+     */
+    #[ORM\OneToMany(targetEntity: Coincoin::class, mappedBy: 'parentId')]
+    private Collection $parentId;
+
     public function __construct(){
         $this->created_at = new \DateTime();
+        $this->parentId = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +79,48 @@ class Quack
     public function setAuthor(?Duck $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): static
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Coincoin>
+     */
+    public function getParentId(): Collection
+    {
+        return $this->parentId;
+    }
+
+    public function addParentId(Coincoin $parentId): static
+    {
+        if (!$this->parentId->contains($parentId)) {
+            $this->parentId->add($parentId);
+            $parentId->setParentId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParentId(Coincoin $parentId): static
+    {
+        if ($this->parentId->removeElement($parentId)) {
+            // set the owning side to null (unless already changed)
+            if ($parentId->getParentId() === $this) {
+                $parentId->setParentId(null);
+            }
+        }
 
         return $this;
     }

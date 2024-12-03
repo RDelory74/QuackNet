@@ -21,7 +21,6 @@ final class Version20241203092359 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE coincoin (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, message CLOB NOT NULL, picture VARCHAR(255) NOT NULL, created_time DATETIME NOT NULL --(DC2Type:datetime_immutable)
-        , tags CLOB NOT NULL --(DC2Type:array)
         )');
     }
 

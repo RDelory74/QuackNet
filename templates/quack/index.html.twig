@@ -11,18 +11,31 @@
                 <th>Author</th>
                 <th>Content</th>
                 <th>Created_at</th>
+                <th>Coincoin</th>
                 {% if app.user %}
-                <th>actions</th>
+                <th>Coincoin</th>
+                <th>Actions</th>
                 {% endif %}
             </tr>
         </thead>
         <tbody>
         {% for quack in quacks %}
             <tr>
-                <td>{{ quack.author.duckname }}</td>
+                <td>
+                    <a href="{{ path('app_duck_profile', {'quackId': quack.id}) }}">{{ quack.author.duckname }}</a>
+                </td>
+
                 <td>{{ quack.content }}</td>
                 <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                {% if app.user == quack.author %}
+                <td>
+                    <a href="{{ path('app_coincoin_by_quack', {'quackId': quack.id}) }}">Show Coincoin</a>
+                </td>
+                {% if app.user  %}
+                <td>
+                    <a href="{{ path('app_coincoin_new', {'quackId': quack.id}) }}">JeCouine</a>
+                </td>
+                {% endif %}
+                {%  if app.user == quack.author  %}
                 <td>
                     <a href="{{ path('app_quack_show', {'id': quack.id}) }}">Show</a>
                     <a href="{{ path('app_quack_edit', {'id': quack.id}) }}">Edit</a>
@@ -34,8 +47,11 @@
                 <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
+
+
         </tbody>
     </table>
-
+    {% if app.user %}
     <a href="{{ path('app_quack_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}

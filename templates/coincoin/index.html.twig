@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Coincoin index{% endblock %}
+
+{% block myContent %}
+    <h1>Coincoin index</h1>
+    <p>{{ quack.content }}</p>
+    <p>posted by: "{{ quack.author.duckname }}" on "</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Message</th>
+                <th>Picture</th>
+                <th>Created_time</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for coincoin in coincoins %}
+            <tr>
+                <td>{{ coincoin.id }}</td>
+                <td>{{ coincoin.message }}</td>
+                <td>{{ coincoin.picture }}</td>
+                <td>{{ coincoin.createdTime ? coincoin.createdTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_coincoin_show', {'id': coincoin.id}) }}">show</a>
+                    <a href="{{ path('app_coincoin_edit', {'id': coincoin.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if app.user %}
+    <a href="{{ path('app_coincoin_new', {'quackId': quack.id}) }}">Create new</a>
+    {% endif %}
+    <a href="{{ path('app_quack_index') }}">Back Home</a>
+{% endblock %}

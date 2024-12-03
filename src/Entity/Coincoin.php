@@ -25,12 +25,17 @@ class Coincoin
     #[ORM\Column]
     private ?\DateTimeImmutable $created_time = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $tags = [];
-
     #[ORM\ManyToOne(inversedBy: 'coincoins')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Duck $author = null;
+
+    #[ORM\ManyToOne(inversedBy: 'parentId')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Quack $parentId = null;
+
+    public function __construct(){
+        $this->created_time = new \DateTimeImmutable();
+}
 
     public function getId(): ?int
     {
@@ -74,17 +79,6 @@ class Coincoin
         return $this;
     }
 
-    public function getTags(): array
-    {
-        return $this->tags;
-    }
-
-    public function setTags(array $tags): static
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
 
     public function getAuthor(): ?Duck
     {
@@ -94,6 +88,18 @@ class Coincoin
     public function setAuthor(?Duck $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getParentId(): ?Quack
+    {
+        return $this->parentId;
+    }
+
+    public function setParentId(?Quack $parentId): static
+    {
+        $this->parentId = $parentId;
 
         return $this;
     }

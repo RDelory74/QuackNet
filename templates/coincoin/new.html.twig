@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Coincoin{% endblock %}
+
+{% block myContent %}
+    <h1>Create new Coincoin</h1>
+
+    {{ include('coincoin/_form.html.twig') }}
+
+    <a href="{{ path('app_coincoin_index') }}">back to list</a>
+{% endblock %}

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Duck;
 use App\Form\DuckType;
 use App\Form\RegistrationFormType;
+use App\Repository\DuckRepository;
+use App\Repository\QuackRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,6 +63,19 @@ class RegistrationController extends AbstractController
             'duck' => $user,
         ]);
     }
+
+    #[Route('duck/{quackId}', name: 'app_duck_profile', methods: ['GET'])]
+    public function showDuck(int $quackId, QuackRepository $quackRepository): Response
+    {
+        $quack = $quackRepository->find($quackId);
+        $duck = $quack->getAuthor();
+
+        return $this->render('registration/profile.html.twig', [
+            'duck' => $duck,
+        ]);
+    }
+
+
     #[Route('register/duck/edit', name: 'app_duck_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -99,4 +114,6 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_quack_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }

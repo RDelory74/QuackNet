@@ -21,7 +21,6 @@ final class Version20241203100728 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE coincoin (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, author_id INTEGER NOT NULL, message CLOB NOT NULL, picture VARCHAR(255) NOT NULL, created_time DATETIME NOT NULL --(DC2Type:datetime_immutable)
-        , tags CLOB NOT NULL --(DC2Type:array)
         , CONSTRAINT FK_3B6C9BC2F675F31B FOREIGN KEY (author_id) REFERENCES duck (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('CREATE INDEX IDX_3B6C9BC2F675F31B ON coincoin (author_id)');
         $this->addSql('CREATE TEMPORARY TABLE __temp__quack AS SELECT id, content, created_at FROM quack');

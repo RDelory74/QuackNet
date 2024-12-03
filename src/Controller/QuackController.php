@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quack;
 use App\Form\QuackType;
+use App\Repository\DuckRepository;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -79,5 +80,18 @@ final class QuackController extends AbstractController
         }
 
         return $this->redirectToRoute('app_quack_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/quack/duck/{authorId}', name: 'app_quack_by_duck', methods: ['GET', 'POST'])]
+    public function showCoinCoinsByQuack(int $authorId, QuackRepository $quackRepository, DuckRepository $duckRepository): Response
+    {
+        $duck = $duckRepository->find($authorId);
+
+        $quack = $quackRepository->findBy(['auhtor' => $authorId]);
+
+        return $this->render('coincoin/index.html.twig', [
+            'quacks' => $quack,
+            'duck' => $duck
+        ]);
     }
 }
