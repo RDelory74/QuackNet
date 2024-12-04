@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New tag{% endblock %}
+
+{% block myContent %}
+    <h1>Tag it</h1>
+
+    {{ include('tag/_form.html.twig') }}
+
+    <a href="{{ path('app_quack_index') }}">back to list</a>
+
+{% endblock %}

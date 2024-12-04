@@ -59,6 +59,7 @@ class Duck implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Quack::class, mappedBy: 'author')]
     private Collection $quacks;
 
+
     public function __construct()
     {
         $this->coincoins = new ArrayCollection();

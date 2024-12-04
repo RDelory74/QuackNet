@@ -15,6 +15,7 @@
         <thead>
             <tr>
                 <th>Author</th>
+                <th>Picture</th>
                 <th>Coincoin</th>
                 <th>Date</th>
                 <th>Time</th>
@@ -26,7 +27,11 @@
                 <td>
                     <a href="{{ path('app_duck_profile', {'quackId': quack.id}) }}">{{ quack.author.duckname }}</a>
                 </td>
-                <td>{{ coincoin.author.duckname }}</td>
+                <td>
+                    {% if quack.picture %}
+                        <img src="{{ asset('uploads/' ~ quack.picture) }}" style="max-width: 100px;">
+                    {% endif %}
+                </td>
                 <td>{{ coincoin.message }}</td>
                 <td>{{ coincoin.createdTime ? coincoin.createdTime|date('Y-m-d ') : '' }}</td>
                 <td>{{ coincoin.createdTime ? coincoin.createdTime|date('H:i:s') : '' }}</td>

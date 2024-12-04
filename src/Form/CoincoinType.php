@@ -3,10 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Coincoin;
-use App\Entity\Duck;
-use App\Entity\Quack;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +14,11 @@ class CoincoinType extends AbstractType
     {
         $builder
             ->add('message')
-            ->add('picture')
+            ->add('picture', FileType::class, [
+                'label' => 'Image',
+                'required' => false,
+                'mapped' => false,
+            ])
         ;
     }
 

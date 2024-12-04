@@ -40,6 +40,17 @@ final class CoincoinController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $coincoin->setParentId($quack);
             $coincoin->setAuthor($user);
+
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $newFilename = uniqid() . '.' . $pictureFile->guessExtension();
+                $pictureFile->move(
+                    $this->getParameter('uploads_directory'),
+                    $newFilename
+                );
+                $coincoin->setPicture($newFilename);
+            }
+
             $entityManager->persist($coincoin);
             $entityManager->flush();
 

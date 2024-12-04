@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CoincoinRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,9 +19,7 @@ class Coincoin
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 
-
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
     #[ORM\Column]
@@ -33,9 +33,28 @@ class Coincoin
     #[ORM\JoinColumn(nullable: false)]
     private ?Quack $parentId = null;
 
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'coincoins')]
+    private Collection $Tag;
+
+
+
     public function __construct(){
         $this->created_time = new \DateTimeImmutable();
+        $this->Tag = new ArrayCollection();
 }
+
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function setTags(Collection $tags): void
+    {
+        $this->tags = $tags;
+    }
 
     public function getId(): ?int
     {
@@ -100,6 +119,30 @@ class Coincoin
     public function setParentId(?Quack $parentId): static
     {
         $this->parentId = $parentId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTag(): Collection
+    {
+        return $this->Tag;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->Tag->contains($tag)) {
+            $this->Tag->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        $this->Tag->removeElement($tag);
 
         return $this;
     }
