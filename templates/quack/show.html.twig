@@ -5,6 +5,10 @@
 {% block myContent %}
     <h1>Quack</h1>
 
+    {% if quack.picture %}
+        <img src="{{ asset('uploads/' ~ quack.picture) }}" alt="Photo du quack" style="max-width: 300px;">
+    {% endif %}
+
     <table class="table">
         <tbody>
             <tr>
@@ -16,7 +20,7 @@
                 <td>{{ quack.content }}</td>
             </tr>
             <tr>
-                <th>Created_at</th>
+                <th>Publish date</th>
                 <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>

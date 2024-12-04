@@ -4,29 +4,32 @@
 
 {% block myContent %}
     <h1>Coincoin index</h1>
+    {% if quack.picture %}
+        <img src="{{ asset('uploads/' ~ quack.picture) }}" style="max-width: 100px;">
+    {% endif %}
     <p>{{ quack.content }}</p>
-    <p>posted by: "{{ quack.author.duckname }}" on "</p>
+    <p>Posted by: "{{ quack.author.duckname }}" </p>
+    <p>Posted Date: {{ quack.createdAt ? quack.createdAt|date('Y-m-d') : '' }}</p>
+    <p>Posted Time: {{ quack.createdAt ? quack.createdAt|date('H:i:s') : '' }}</p>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Message</th>
-                <th>Picture</th>
-                <th>Created_time</th>
-                <th>actions</th>
+                <th>Author</th>
+                <th>Coincoin</th>
+                <th>Date</th>
+                <th>Time</th>
             </tr>
         </thead>
         <tbody>
         {% for coincoin in coincoins %}
             <tr>
-                <td>{{ coincoin.id }}</td>
-                <td>{{ coincoin.message }}</td>
-                <td>{{ coincoin.picture }}</td>
-                <td>{{ coincoin.createdTime ? coincoin.createdTime|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_coincoin_show', {'id': coincoin.id}) }}">show</a>
-                    <a href="{{ path('app_coincoin_edit', {'id': coincoin.id}) }}">edit</a>
+                    <a href="{{ path('app_duck_profile', {'quackId': quack.id}) }}">{{ quack.author.duckname }}</a>
                 </td>
+                <td>{{ coincoin.author.duckname }}</td>
+                <td>{{ coincoin.message }}</td>
+                <td>{{ coincoin.createdTime ? coincoin.createdTime|date('Y-m-d ') : '' }}</td>
+                <td>{{ coincoin.createdTime ? coincoin.createdTime|date('H:i:s') : '' }}</td>
             </tr>
         {% else %}
             <tr>
@@ -36,7 +39,7 @@
         </tbody>
     </table>
     {% if app.user %}
-    <a href="{{ path('app_coincoin_new', {'quackId': quack.id}) }}">Create new</a>
+    <a href="{{ path('app_coincoin_new', {'quackId': quack.id}) }}">Je couine</a>
     {% endif %}
     <a href="{{ path('app_quack_index') }}">Back Home</a>
 {% endblock %}

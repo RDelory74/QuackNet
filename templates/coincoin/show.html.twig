@@ -26,7 +26,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_coincoin_by_quack', 'id': coincoin.parentId) }}">back to list</a>
+    <a href="{{ path('app_coincoin_by_quack', {'quackId': coincoin.parentId.id}) }}">back to list</a>
 
     <a href="{{ path('app_coincoin_edit', {'id': coincoin.id}) }}">edit</a>
 

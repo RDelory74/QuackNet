@@ -43,12 +43,14 @@ final class CoincoinController extends AbstractController
             $entityManager->persist($coincoin);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_quack_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_coincoin_by_quack', ['quackId'=>$quackId], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('coincoin/new.html.twig', [
             'coincoin' => $coincoin,
             'form' => $form,
+            'quackId' => $quackId,
+            'quack' => $quack
         ]);
     }
 

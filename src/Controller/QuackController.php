@@ -33,6 +33,17 @@ final class QuackController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $quack->setAuthor($user);
+
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $newFilename = uniqid() . '.' . $pictureFile->guessExtension();
+                $pictureFile->move(
+                    $this->getParameter('uploads_directory'),
+                    $newFilename
+                );
+                $quack->setPicture($newFilename);
+            }
+
             $entityManager->persist($quack);
             $entityManager->flush();
 
