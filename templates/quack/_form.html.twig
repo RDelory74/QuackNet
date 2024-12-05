@@ -2,3 +2,26 @@
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var collectionHolder = document.querySelector('.tags');
+        var addTagButton = document.createElement('button');
+        addTagButton.innerText = 'Add Tag';
+        addTagButton.type = 'button';
+        addTagButton.addEventListener('click', function() {
+            addTagForm(collectionHolder);
+        });
+        collectionHolder.appendChild(addTagButton);
+
+        function addTagForm(collectionHolder) {
+            let prototype = collectionHolder.dataset.prototype;
+            let index = collectionHolder.dataset.index;
+            let newForm = prototype.replace(/__name__/g, index);
+            collectionHolder.dataset.index = parseInt(index) + 1;
+
+            let div = document.createElement('div');
+            div.innerHTML = newForm;
+            collectionHolder.appendChild(div);
+        }
+    });
+</script>

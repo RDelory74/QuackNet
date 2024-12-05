@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Quack;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,6 +20,23 @@ class QuackType extends AbstractType
                 'label' => 'Picture',
                 'required' => false,
                 'mapped' => true,
+            ])
+            ->add('tags', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                'label' => 'Tags',
+                'entry_options' => [
+                    'label' => false,
+                ],
+                'attr' => [
+                    'class' => 'tags',
+                    'data-prototype' => $builder->create('tags', TextType::class, [
+                        'label' => false,
+                    ])->getForm()->createView(),
+                    'data-index' => 0,
+                ],
             ])
         ;
     }

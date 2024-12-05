@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quack;
+use App\Entity\Tag;
 use App\Form\QuackType;
 use App\Repository\DuckRepository;
 use App\Repository\QuackRepository;
@@ -44,6 +45,25 @@ final class QuackController extends AbstractController
                 $quack->setPicture($newFilename);
             }
 
+            $tagsData = $form->get('tags')->getData();
+            if (count($tagsData) > 6) {
+                $this->addFlash('error', 'You can only Kwak 6 Tags');
+                return $this->render('quack/new.html.twig', [
+                    'quack' => $quack,
+                    'form' => $form->createView(),
+                ]);
+            }
+
+            foreach ($tagsData as $tagData) {
+                $tag = $entityManager->getRepository(Tag::class)->findOneBy(['word' => $tagData]);
+                if (!$tag) {
+                    $tag = new Tag();
+                    $tag->setWord($tagData);
+                    $entityManager->persist($tag);
+                }
+                $quack->addTag($tag);
+            }
+
             $entityManager->persist($quack);
             $entityManager->flush();
 
@@ -71,6 +91,7 @@ final class QuackController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_quack_index', [], Response::HTTP_SEE_OTHER);

@@ -28,8 +28,8 @@
                     <a href="{{ path('app_duck_profile', {'quackId': quack.id}) }}">{{ quack.author.duckname }}</a>
                 </td>
                 <td>
-                    {% if quack.picture %}
-                        <img src="{{ asset('uploads/' ~ quack.picture) }}" style="max-width: 100px;">
+                    {% if coincoin.picture %}
+                        <img src="{{ asset('uploads/' ~ coincoin.picture) }}" style="max-width: 100px;">
                     {% endif %}
                 </td>
                 <td>{{ coincoin.message }}</td>
