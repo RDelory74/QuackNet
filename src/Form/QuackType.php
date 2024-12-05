@@ -19,7 +19,7 @@ class QuackType extends AbstractType
             ->add('picture', FileType::class, [
                 'label' => 'Picture',
                 'required' => false,
-                'mapped' => true,
+                'mapped' => false,
             ])
             ->add('tags', CollectionType::class, [
                 'entry_type' => TextType::class,

@@ -2,10 +2,10 @@
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-<script>
+{#<script>
     document.addEventListener('DOMContentLoaded', function() {
-        var collectionHolder = document.querySelector('.tags');
-        var addTagButton = document.createElement('button');
+        let collectionHolder = document.querySelector('.tags');
+        let addTagButton = document.createElement('button');
         addTagButton.innerText = 'Add Tag';
         addTagButton.type = 'button';
         addTagButton.addEventListener('click', function() {
@@ -24,4 +24,4 @@
             collectionHolder.appendChild(div);
         }
     });
-</script>
+</script>#}
