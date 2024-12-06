@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Quack;
 use App\Entity\Tag;
 use App\Form\QuackType;
+use App\Form\SearchType;
 use App\Repository\DuckRepository;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,10 +17,18 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/')]
 final class QuackController extends AbstractController
 {
-    #[Route('/home',name: 'app_quack_index', methods: ['GET'])]
-    public function index(QuackRepository $quackRepository): Response
+    #[Route('/',name: 'app_quack_index', methods: ['GET'])]
+    public function index(QuackRepository $quackRepository, Request $request): Response
     {
+        $form = $this ->createForm(SearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $quackRepository -> searchVisibleQuacks($data);
+        }
         return $this->render('quack/index.html.twig', [
+            'form' => $form->createView(),
             'quacks' => $quackRepository->findAll(),
         ]);
     }

@@ -3,60 +3,44 @@
 {% block title %}Quack index{% endblock %}
 
 {% block myContent %}
-    <h1>Quack index</h1>
+    {% if app.user %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Author</th>
-                <th>Picture</th>
-                <th>Content</th>
-                <th>Created_at</th>
-                <th>Coincoin</th>
-                {% if app.user %}
-                <th>Coincoin</th>
-                <th>Actions</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
+        <div class="container">
+            <a href="{{ path('app_quack_new') }}" class="btn btn-dark">Create new Quack</a>
+        </div>
+
+
+            <div class="container-cards">
         {% for quack in quacks %}
-            <tr>
-                <td>
-                    <a href="{{ path('app_duck_profile', {'quackId': quack.id}) }}">{{ quack.author.duckname }}</a>
-                </td>
-                <td>
-                {% if quack.picture %}
-                    <img src="{{ asset('uploads/' ~ quack.picture) }}" style="max-width: 100px;">
-                {% endif %}
-                </td>
-                <td>{{ quack.content }}</td>
-                <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_coincoin_by_quack', {'quackId': quack.id}) }}">Show Coincoin</a>
-                </td>
-                {% if app.user  %}
-                <td>
-                    <a href="{{ path('app_coincoin_new', {'quackId': quack.id}) }}">JeCouine</a>
-                </td>
-                {% endif %}
-                {%  if app.user == quack.author  %}
-                <td>
-                    <a href="{{ path('app_quack_show', {'id': quack.id}) }}">Show</a>
-                    <a href="{{ path('app_quack_edit', {'id': quack.id}) }}">Edit</a>
-                </td>
-                {% endif %}
-            </tr>
+                <div class="card" style="width: 18rem;">
+                    {% if quack.picture %}
+                        <img src="{{ asset('uploads/' ~ quack.picture) }}" class="card-img-top" alt="...">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ quack.content }}</h5>
+                        <p class="card-text">{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+                        <a href="{{ path('app_duck_profile', {'quackId': quack.id}) }}"
+                           class="btn btn-dark btn-sm">{{ quack.author.duckname }}</a>
+                        <a href="{{ path('app_coincoin_new', {'quackId': quack.id}) }}" class="btn btn-success btn-sm">JeCouine</a>
+                        {% if app.user == quack.author %}
+                            <a href="{{ path('app_quack_show', {'id': quack.id}) }}"
+                               class="btn btn-dark btn-sm">Show</a>
+                            <a href="{{ path('app_quack_edit', {'id': quack.id}) }}"
+                               class="btn btn btn-outline-warning btn-sm">Edit</a>
+                        {% endif %}
+                    </div>
+                </div>
+
         {% else %}
             <tr>
                 <td colspan="4">no records found</td>
             </tr>
+
         {% endfor %}
-
-
-        </tbody>
-    </table>
-    {% if app.user %}
-    <a href="{{ path('app_quack_new') }}">Create new Quack</a>
+            </div>
+    {% else %}
+        <div class="container">
+            <p>Ducky: <q><i>Sur les réseaux comme sur l'étang, le calme cache souvent un remous profond...</i></q></p>
+        </div>
     {% endif %}
 {% endblock %}

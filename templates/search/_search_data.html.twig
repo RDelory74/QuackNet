@@ -1,0 +1,16 @@
+
+
+
+<form class="d-flex bg-dark rounded" role="search">
+    {{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+    <div class="input-group">
+        {{ form_widget(form.q, {
+            'attr': {
+                'class': 'form-control me-2 bg-dark text-white border-0',
+                'placeholder': 'Search'
+            }
+        }) }}
+        <button class="btn btn-outline-light" type="submit">Search</button>
+    </div>
+    {{ form_end(form) }}
+</form>

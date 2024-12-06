@@ -1,3 +1,19 @@
 body {
-    background-color: #a4bcc6;
+    background-color: black;
+    color: white;
+    font-family: Calibri, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1%;
+}
+.container-cards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
 }

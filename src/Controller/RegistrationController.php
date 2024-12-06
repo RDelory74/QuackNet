@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Duck;
 use App\Form\DuckType;
 use App\Form\RegistrationFormType;
-use App\Repository\DuckRepository;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +34,7 @@ class RegistrationController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // encode the plain password
+
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $entityManager->persist($user);

@@ -16,9 +16,9 @@ class QuackRepository extends ServiceEntityRepository
         parent::__construct($registry, Quack::class);
     }
 
-//    /**
-//     * @return Quack[] Returns an array of Quack objects
-//     */
+    /**
+     * @return Quack[] Returns an array of Quack objects
+     */
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('q')
@@ -30,6 +30,18 @@ class QuackRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+
+    public function searchVisibleQuacks(string $keyword): array
+    {
+        return $this->createQueryBuilder('q')
+            ->leftJoin('q.author', 'a')
+            ->leftJoin('q.tags', 't')
+            ->where('a.duckname LIKE :keyword OR t.name LIKE :keyword OR q.content LIKE :keyword')
+            ->setParameter('keyword', '%' . $keyword . '%')
+            ->orderBy('q.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    public function findOneBySomeField($value): ?Quack
 //    {
