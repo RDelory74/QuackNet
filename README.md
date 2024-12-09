@@ -28,7 +28,10 @@ Bootstrap
 Frontend framework for responsive design and styling.
 
 ## Function 
+
 ![Capture d’écran du 2024-12-09 09-18-56.png](QuackNet/public/readme_files/Capture%20d%E2%80%99%C3%A9cran%20du%202024-12-09%2009-18-56.png)
+
+
 Features to Implement
 
 User Authentication:
