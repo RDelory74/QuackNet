@@ -4,7 +4,7 @@
 
 Symfony exercice. Social  duck network
 
-This project aims to develop advanced PHP skills using the Symfony framework while implementing best coding practices. Over the course of 7 days (49 hours), participants will create a basic Twitter-like platform where users can create posts, interact through comments, and authenticate securely.
+This project aims to develop advanced PHP skills using the Symfony framework while implementing best coding practices. 
 
 Framework Discovery and Makers
 Symfony Basics: Understand Symfony's architecture, folder structure, and tools.
